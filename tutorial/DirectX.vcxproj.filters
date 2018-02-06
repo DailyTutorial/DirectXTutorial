@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="scoped_ole_initializer.cc">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="scoped_ref_object.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="scoped_com_object.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="window_proc.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="window_impl.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="scoped_bitmap.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image.c">
+      <Filter>util</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="scoped_com_object.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="scoped_ole_initializer.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="scoped_ref_object.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="window_proc.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="window_impl.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="window_msg_util.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="scoped_bitmap.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="scoped_gdi_object.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="scoped_handle.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="scoped_hglobal.h.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="scoped_hdc.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="scoped_selected_object.h">
+      <Filter>util</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="util">
+      <UniqueIdentifier>{4c7ae9c9-2494-49b1-8ed8-b2de5d6f1d34}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
