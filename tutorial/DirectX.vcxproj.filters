@@ -64,6 +64,9 @@
     <ClInclude Include="scoped_selected_object.h">
       <Filter>util</Filter>
     </ClInclude>
+    <ClInclude Include="window_delegate.h">
+      <Filter>util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="util">

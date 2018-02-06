@@ -164,6 +164,7 @@
     <ClInclude Include="scoped_selected_object.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="window_delegate.h" />
     <ClInclude Include="window_impl.h" />
     <ClInclude Include="window_msg_util.h" />
     <ClInclude Include="window_proc.h" />

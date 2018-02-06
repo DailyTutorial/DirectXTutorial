@@ -16,26 +16,14 @@
 #pragma comment(lib, "D3D9.lib")
 
 class Dispatcher : public ui::WindowDelegate {
-    ui::WindowDelegate::Dispatch dispatch_;
     virtual BOOL DispatchEvent(HWND window, UINT message, WPARAM w_param, LPARAM l_param) override {
-        switch (message) {
-        case WM_KEYDOWN: {
-            if (w_param == VK_ESCAPE) {
-                ::DestroyWindow(window);
-                return TRUE;
-            }
-        } break;
-        default:
-            break;
+        if (message == WM_KEYDOWN && w_param == VK_ESCAPE) {
+            ::DestroyWindow(window);
+            return TRUE;
         }
-        if (dispatch_) { return dispatch_(window, message, w_param, l_param); }
         return FALSE;
     }
     virtual void OnWindowStateChanged(ui::WindowState new_state) override {}
-
-public:
-    Dispatcher(const ui::WindowDelegate::Dispatch& dispatch) : dispatch_(dispatch) {
-    }
 };
 
 struct CustomVertex {
@@ -52,11 +40,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prev_inst, _In_ LP
     UNREFERENCED_PARAMETER(prev_inst);
     UNREFERENCED_PARAMETER(cmd_line);
 
-    ui::UnregisterClassesAtExit();
+    ui::RegisterClassesAtExit();
     ScopedOleInitializer ole_initializer;
 
-
-    ui::ScopedWindow window(new ui::Window(nullptr));
+    std::unique_ptr<Dispatcher> dispatcher(new Dispatcher);
+    ui::ScopedWindow window(new ui::Window(dispatcher.get()));
     window->Init(NULL, RECT{ 100, 100, 640, 480 });
     window->SetTitle(L"DirectX Tutorial");
     window->Show();
@@ -173,7 +161,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prev_inst, _In_ LP
         device->SetTexture(0, texture.Detach());
     }
 
-    std::unique_ptr<Dispatcher> dispatcher(new Dispatcher([&](HWND window, UINT message, WPARAM w_param, LPARAM l_param)->BOOL {
+    window->FireEvent([&](HWND window, UINT message, WPARAM w_param, LPARAM l_param)->BOOL {
         if (message == WM_PAINT) {
             device->Clear(0, nullptr, D3DCLEAR_TARGET, D3DCOLOR_ARGB(255, 255, 255, 255), 0.0f, 0);
             device->SetStreamSource(0, vertex_buffer, 0, sizeof(CustomVertex));
@@ -195,8 +183,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE inst, _In_opt_ HINSTANCE prev_inst, _In_ LP
             result = device->Reset(&params);
         }
         return FALSE;
-    }));
-    window->SetDelegate(dispatcher.get());
+    });
+
     ui::RunLoop();
     return 0;
 }

@@ -202,7 +202,7 @@ void RunLoop() {
 }
 
 // static
-void UnregisterClassesAtExit() {
+void RegisterClassesAtExit() {
     std::atexit([]() {
         ClassRegistrar::GetInstance()->UnregisterClasses();
     });
@@ -308,8 +308,8 @@ RECT Window::bounds() {
     return cr;
 }
 
-void Window::SetDelegate(WindowDelegate* delegate) {
-    delegate_ = delegate;
+void Window::FireEvent(const WindowDelegate::Dispatch& dispatcher) {
+    dispatcher_ = dispatcher;
 }
 
 void Window::SetTitle(const std::wstring& title) {
@@ -360,6 +360,7 @@ BOOL Window::ProcessWindowMessage(HWND window, UINT message, WPARAM w_param, LPA
         break;
     }
 
+    if (dispatcher_ && dispatcher_(window, message, w_param, l_param)) { return TRUE; }
     if (!delegate_) return FALSE;
     return delegate_->DispatchEvent(hwnd(), message, w_param, l_param);
 }

@@ -13,39 +13,22 @@
 #include <windows.h>
 #include <string>
 #include <memory>
-#include <functional>
 
+#include "window_delegate.h"
 #include "window_msg_util.h"
 
 class ClassRegistrar;
 
-
 namespace ui {
 
-enum WindowState {
-    WINDOW_STATE_UNKNOWN,
-    WINDOW_STATE_MAXIMIZED,
-    WINDOW_STATE_MINIMIZED,
-    WINDOW_STATE_NORMAL,
-    WINDOW_STATE_FULLSCREEN,
-};
-
-class WindowDelegate {
-public:
-    virtual ~WindowDelegate() {}
-    using Dispatch = std::function<BOOL(HWND, UINT, WPARAM, LPARAM)>;
-    virtual BOOL DispatchEvent(HWND window, UINT message, WPARAM w_param, LPARAM l_param) = 0;
-    virtual void OnWindowStateChanged(WindowState new_state) = 0;
-};
-
+void RegisterClassesAtExit();
 void RunLoop();
-void UnregisterClassesAtExit();
 
 class Window;
 struct WindowTraits { void operator()(Window* x); };
 using ScopedWindow = std::unique_ptr<Window, WindowTraits>;
 
-class Window : public MessageMapInterface {
+class Window : public ui::MessageMapInterface {
 public:
     Window(WindowDelegate* delegate);
     virtual ~Window();
@@ -71,7 +54,7 @@ public:
     void set_bounds(const RECT& bounds);
     RECT bounds();
 
-    void SetDelegate(WindowDelegate* delegate);
+    void FireEvent(const WindowDelegate::Dispatch& dispatcher);
     void SetTitle(const std::wstring& title);
     void Show(int cmd_show = SW_SHOWNORMAL);
     void Hide();
@@ -107,6 +90,7 @@ private:
     UINT class_style_;
     HWND hwnd_;
     WindowDelegate* delegate_ = nullptr;
+    WindowDelegate::Dispatch dispatcher_;
 };
 
 } // namespace ui

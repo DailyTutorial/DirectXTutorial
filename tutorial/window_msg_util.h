@@ -12,6 +12,10 @@
 
 #include <Windows.h>
 
+// Based on atlcrack.h(WTL) to realize the BEGIN_MSG_MAP in the furture.
+
+namespace ui {
+
 class MessageMapInterface {
 public:
     virtual ~MessageMapInterface() {}
@@ -23,5 +27,7 @@ public:
         LRESULT& result,
         DWORD msg_map_id = 0) = 0;
 };
+
+} // namespace ui
 
 #endif  // !#define (DIRECTX_WINDOW_MSG_UTIL_INCLUDE_H_ )
